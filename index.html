@@ -15,6 +15,73 @@
 
 <body>
     <script src="js/script.js"></script>
+    <div class="verity-container">
+        <div class="verity-container__header">
+            <h2 class="verity-container__header-title">Verity Dissection Simulator</h2>
+            <p class="verity-container__header-desc">A simulator to help practice dissection in the verity encounter</p>
+        </div>
+        <div class="verity-container__controls">
+            <button class="verity-container__controls-reset">Reset</button>
+            <button class="verity-container__controls-randomise">Randomise</button>
+            <label for="letters">Letters</label>
+            <input type="checkbox" id="letters" name="letters" value="yes">
+        </div>
+        <div class="verity-container__callouts">
+            <h2 class="verity-container__callouts-title">Callouts</h2>
+            <div class="verity-container__callouts-shapes"></div>
+        </div>
+        <div class="verity-container__statues">
+            <span class="verity-container__statues-title">Statues</span>
+            <span class="verity-container__statues-status">Incorrect</span>
+            <div class="verity-container__statues-container">
+                <div class="verity-container__statue-left">
+                    <img class="verity-container__statue-shape">
+                    <button class="verity-container__dissect-left">Dissect</button>
+                </div>
+                <div class="verity-container__statue-mid">
+                    <img class="verity-container__statue-shape">
+                    <button class="verity-container__dissect-mid">Dissect</button>
+                </div>
+                <div class="verity-container__statue-right">
+                    <img class="verity-container__statue-shape">
+                    <button class="verity-container__dissect-right">Dissect</button>
+                </div>
+            </div>
+        </div>
+        <div class="verity-container__shape-held">
+            <h2 class="verity-container__shape-held-title">Shape Held</h2>
+        </div>
+        <div class="verity-container__shapes">
+            <h2 class="verity-container__shapes-title">Shapes Dropped</h2>
+            <div class="verity-container__enemies">
+                <div class="verity-container__enemies-knight">
+                    <img class="verity-enemies" src="assets/knight.webp">
+                    <button class="verity-container__enemies-left-knight-kill">Kill</button>
+                    <button class="verity-container__pickup-left hide-class">Pick up</button>
+                    <button class="verity-container__ignore-left hide-class">&times</button>
+                </div>
+                <div class="verity-container__enemies-knight">
+                    <img class="verity-enemies" src="assets/knight.webp">
+                    <button class="verity-container__enemies-mid-knight-kill">Kill</button>
+                    <button class="verity-container__pickup-mid hide-class">Pick up</button>
+                    <button class="verity-container__ignore-mid hide-class">&times</button>
+                </div>
+                <div class="verity-container__enemies-knight">
+                    <img class="verity-enemies" src="assets/knight.webp">
+                    <button class="verity-container__enemies-right-knight-kill">Kill</button>
+                    <button class="verity-container__pickup-right hide-class">Pick up</button>
+                    <button class="verity-container__ignore-right hide-class">&times</button>
+                </div>
+                <div class="verity-container__enemies-champions hide-class">
+                    <div class="verity-container__enemies-ogres">
+                        <img class="verity-enemies" src="assets/ogre.jpg">
+                        <img class="verity-enemies" src="assets/ogre.jpg">
+                    </div>
+                    <button class="verity-container__enemies-ogre-kill">Kill unstopabble ogres</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
