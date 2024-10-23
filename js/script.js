@@ -124,74 +124,27 @@
         }
 
         randomiseStatues() {
-            let possibility = (Math.floor(Math.random() * 5) + 1);
+            const finalArray = new Array(6).fill(null);
 
-            if (possibility == 1) {
-                this.statuesArr.sort((a, b) => {
-                    return this.calloutsArr.indexOf(a) - this.calloutsArr.indexOf(b);
-                });
+            finalArray[0] = this.calloutsArr[0];
+            finalArray[2] = this.calloutsArr[1];
+            finalArray[4] = this.calloutsArr[2];
 
-                console.log("First possibility", this.statuesArr);
-                this.populateStatues();
-            }
+            let randomIndex = Math.floor(Math.random() * this.calloutsArr.length);
+            finalArray[1] = this.calloutsArr[randomIndex];
 
-            if (possibility == 2 || possibility == 3) {
-                const randomShape = this.calloutsArr[Math.floor(Math.random() * this.calloutsArr.length)];
-                const randomShapeIndex = this.calloutsArr.indexOf(randomShape);
+            do {
+                randomIndex = Math.floor(Math.random() * this.calloutsArr.length);
+                finalArray[3] = this.calloutsArr[randomIndex];
+            } while (finalArray[3] === finalArray[1]);
 
-                const newStatuesArr = [randomShape, randomShape];
-                const remainingElements = this.statuesArr.filter(item => item !== randomShape);
+            do {
+                randomIndex = Math.floor(Math.random() * this.calloutsArr.length);
+                finalArray[5] = this.calloutsArr[randomIndex];
+            } while (finalArray[5] === finalArray[1] || finalArray[5] === finalArray[3]);
 
-                const shuffleArray = (arr) => {
-                    for (let i = arr.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [arr[i], arr[j]] = [arr[j], arr[i]];
-                    }
-                };
-
-                let finalStatuesArr;
-
-                if (randomShapeIndex === 0) {
-                    do {
-                        shuffleArray(remainingElements);
-                        finalStatuesArr = newStatuesArr.concat(remainingElements);
-
-                    } while (finalStatuesArr[2] === finalStatuesArr[3]);
-
-                    this.statuesArr = finalStatuesArr;
-                    console.log("Second possibility", this.statuesArr);
-                    this.populateStatues();
-
-                } else if (randomShapeIndex === 1) {
-                    do {
-                        shuffleArray(remainingElements);
-                        let arr1 = remainingElements.slice(0, 2);
-                        let arr2 = remainingElements.slice(2, 4);
-                        finalStatuesArr = arr1.concat(newStatuesArr, arr2);
-
-                    } while (finalStatuesArr[0] === finalStatuesArr[1]);
-
-                    this.statuesArr = finalStatuesArr;
-                    console.log("Second possibility", this.statuesArr);
-                    this.populateStatues();
-
-                } else if (randomShapeIndex == 2) {
-                    do {
-                        shuffleArray(remainingElements);
-                        finalStatuesArr = remainingElements.concat(newStatuesArr);
-
-                    } while (finalStatuesArr[0] === finalStatuesArr[1]);
-
-                    this.statuesArr = finalStatuesArr;
-                    console.log("Second possibility", this.statuesArr);
-                    this.populateStatues();
-                }
-            }
-
-            if (possibility == 4 || possibility == 5) {
-                console.log("Third possibility");
-                this.populateStatues();
-            }
+            this.statuesArr = finalArray;
+            this.populateStatues();
 
         }
 
@@ -208,47 +161,25 @@
             let midStatueShapes = this.midStatue.getAttribute('statue-shape');
             let rightStatueShapes = this.rightStatue.getAttribute('statue-shape');
 
-            if (leftStatueShapes == "CC") {
-                this.leftStatue.children[0].src = "assets/sphere.svg";
-            } else if (leftStatueShapes == "SS") {
-                this.leftStatue.children[0].src = "assets/cube.svg";
-            } else if (leftStatueShapes == "TT") {
-                this.leftStatue.children[0].src = "assets/pyramid.svg";
-            } else if (leftStatueShapes == "SC" || leftStatueShapes == "CS") {
-                this.leftStatue.children[0].src = "assets/cylinder.svg";
-            } else if (leftStatueShapes == "TS" || leftStatueShapes == "ST") {
-                this.leftStatue.children[0].src = "assets/prism.png";
-            } else if (leftStatueShapes == "CT" || leftStatueShapes == "TC") {
-                this.leftStatue.children[0].src = "assets/cone.svg";
-            }
+            const shapeAssets = {
+                "CC": "assets/sphere.svg",
+                "SS": "assets/cube.svg",
+                "TT": "assets/pyramid.svg",
+                "SC": "assets/cylinder.svg",
+                "CS": "assets/cylinder.svg",
+                "TS": "assets/prism.png",
+                "ST": "assets/prism.png",
+                "CT": "assets/cone.svg",
+                "TC": "assets/cone.svg"
+            };
 
-            if (midStatueShapes == "CC") {
-                this.midStatue.children[0].src = "assets/sphere.svg";
-            } else if (midStatueShapes == "SS") {
-                this.midStatue.children[0].src = "assets/cube.svg";
-            } else if (midStatueShapes == "TT") {
-                this.midStatue.children[0].src = "assets/pyramid.svg";
-            } else if (midStatueShapes == "SC" || midStatueShapes == "CS") {
-                this.midStatue.children[0].src = "assets/cylinder.svg";
-            } else if (midStatueShapes == "TS" || midStatueShapes == "ST") {
-                this.midStatue.children[0].src = "assets/prism.png";
-            } else if (midStatueShapes == "CT" || midStatueShapes == "TC") {
-                this.midStatue.children[0].src = "assets/cone.svg";
-            }
+            const updateStatueSrc = (statue, shape) => {
+                statue.children[0].src = shapeAssets[shape];
+            };
 
-            if (rightStatueShapes == "CC") {
-                this.rightStatue.children[0].src = "assets/sphere.svg";
-            } else if (rightStatueShapes == "SS") {
-                this.rightStatue.children[0].src = "assets/cube.svg";
-            } else if (rightStatueShapes == "TT") {
-                this.rightStatue.children[0].src = "assets/pyramid.svg";
-            } else if (rightStatueShapes == "SC" || rightStatueShapes == "CS") {
-                this.rightStatue.children[0].src = "assets/cylinder.svg";
-            } else if (rightStatueShapes == "TS" || rightStatueShapes == "ST") {
-                this.rightStatue.children[0].src = "assets/prism.png";
-            } else if (rightStatueShapes == "CT" || rightStatueShapes == "TC") {
-                this.rightStatue.children[0].src = "assets/cone.svg";
-            }
+            updateStatueSrc(this.leftStatue, leftStatueShapes);
+            updateStatueSrc(this.midStatue, midStatueShapes);
+            updateStatueSrc(this.rightStatue, rightStatueShapes);
         }
 
         handleLetterCheckbox() {
@@ -288,9 +219,27 @@
             }
         }
 
+        resetDisabledState() {
+            this.leftStatue.children[1].disabled = true;
+            this.midStatue.children[1].disabled = true;
+            this.rightStatue.children[1].disabled = true;
+        }
+
         pickupShape(event) {
             const currentBtn = event.currentTarget;
             const action = this.pickupActions[currentBtn.className];
+
+            if ((this.leftStatue.getAttribute("statue-shape")).includes(action.shape)) {
+                this.leftStatue.children[1].disabled = false;
+            }
+
+            if ((this.midStatue.getAttribute("statue-shape")).includes(action.shape)) {
+                this.midStatue.children[1].disabled = false;
+            }
+
+            if ((this.rightStatue.getAttribute("statue-shape")).includes(action.shape)) {
+                this.rightStatue.children[1].disabled = false;
+            }
 
             if (action) {
                 this.leftShapePickup.disabled = true;
@@ -377,6 +326,9 @@
             this.rightShapeIgnore.addEventListener('click', (event) => this.ignoreShape(event));
 
             this.ogresKill.addEventListener('click', () => this.spawnKnights());
+
+            window.onload = this.resetDisabledState();
+
         }
 
         init() {
