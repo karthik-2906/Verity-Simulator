@@ -77,6 +77,10 @@ h6 {
     display: flex;
 }
 
+.verity-container__callouts-letter {
+    font-size: 4rem;
+}
+
 .verity-container__callouts-shape,
 .verity-container__callouts-letter {
     flex: 1;
@@ -87,6 +91,20 @@ h6 {
 .verity-enemies {
     max-height: 100px;
     margin: 0 auto;
+}
+
+.verity-container__statues-title,
+.verity-container__statues-status {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.verity-container__statues-status {
+    color: red;
+}
+
+.correct-status {
+    color: green !important;
 }
 
 .verity-container__enemies,
@@ -107,6 +125,10 @@ h6 {
 
 .verity-container__enemies-ogres {
     display: flex;
+}
+
+.dissect-primed {
+    background-color: yellow;
 }
 
 .hide-class {

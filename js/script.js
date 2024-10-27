@@ -1,7 +1,7 @@
 (function () {
     class VerityCalculator {
         constructor() {
-            this.temp = "Karthik";
+            this.resetBtn = document.querySelector('.verity-container__controls-reset');
             this.randomiseBtn = document.querySelector('.verity-container__controls-randomise');
             this.lettersCheckbox = document.getElementById('letters');
             this.calloutsArr = ['C', 'T', 'S'];
@@ -13,9 +13,19 @@
                 { src: 'assets/square.svg', letter: 'S' }
             ];
 
+            this.status = document.querySelector(".verity-container__statues-status");
+
             this.leftStatue = document.querySelector(".verity-container__statue-left");
             this.midStatue = document.querySelector(".verity-container__statue-mid");
             this.rightStatue = document.querySelector(".verity-container__statue-right");
+
+            this.leftDissect = document.querySelector(".verity-container__dissect-left");
+            this.midDissect = document.querySelector(".verity-container__dissect-mid");
+            this.rightDissect = document.querySelector(".verity-container__dissect-right");
+
+            this.dissectStatus = false;
+            this.dissect1;
+            this.dissect2;
 
             this.shapeHeldTitle = document.getElementsByClassName("verity-container__shape-held-title")[0];
             this.knights = document.getElementsByClassName("verity-container__enemies-knight");
@@ -90,7 +100,24 @@
             this.ogresKill = document.querySelector(".verity-container__enemies-ogre-kill")
         }
 
-        randomiseCallouts() {
+        reset() {
+            this.populateStatues();
+            this.resetDisabledState();
+            this.resetShapeHeldStatus();
+            this.resetKnights();
+            this.spawnKnights();
+            if (document.querySelector(".dissect-primed")) {
+                document.querySelector(".dissect-primed").classList.remove("dissect-primed");
+            };
+            this.dissectStatus = false;
+        }
+
+        randomise() {
+            this.reset();
+            this.start();
+        }
+
+        start() {
             const callouts = document.querySelectorAll('.verity-container__callouts-shapes');
             callouts.forEach(callout => {
                 Array.from(callout.children).forEach(child => child.remove());
@@ -145,7 +172,6 @@
 
             this.statuesArr = finalArray;
             this.populateStatues();
-
         }
 
         populateStatues() {
@@ -180,6 +206,26 @@
             updateStatueSrc(this.leftStatue, leftStatueShapes);
             updateStatueSrc(this.midStatue, midStatueShapes);
             updateStatueSrc(this.rightStatue, rightStatueShapes);
+
+            this.updateStatus(leftStatueShapes, midStatueShapes, rightStatueShapes);
+        }
+
+        updateStatus(leftStatueShapes, midStatueShapes, rightStatueShapes) {
+            let leftCombinedShapes = leftStatueShapes + this.calloutsArr[0];
+            let midCombinedShapes = midStatueShapes + this.calloutsArr[1];
+
+            if (leftCombinedShapes.includes("C") && leftCombinedShapes.includes("S") && leftCombinedShapes.includes("T")) {
+                if (midCombinedShapes.includes("C") && midCombinedShapes.includes("S") && midCombinedShapes.includes("T")) {
+                    this.status.classList.add("correct-status");
+                    this.status.textContent = "Correct";
+                } else {
+                    this.status.classList.remove("correct-status");
+                    this.status.textContent = "Incorrect";
+                }
+            } else {
+                this.status.classList.remove("correct-status");
+                this.status.textContent = "Incorrect";
+            }
         }
 
         handleLetterCheckbox() {
@@ -207,6 +253,53 @@
             }
         }
 
+        resetShapeHeldStatus() {
+            this.shapeHeldTitle.setAttribute('shape-held', '');
+            if (this.shapeHeldTitle.nextElementSibling) {
+                this.shapeHeldTitle.nextElementSibling.remove();
+            }
+            this.resetDisabledState();
+
+            this.leftShapePickup.disabled = false;
+            this.midShapePickup.disabled = false;
+            this.rightShapePickup.disabled = false;
+        }
+
+        resetDisabledState() {
+            this.leftDissect.disabled = true;
+            this.midDissect.disabled = true;
+            this.rightDissect.disabled = true;
+        }
+
+        dissectStatue(event) {
+            if (this.dissectStatus == false) {
+                this.dissectStatus = true;
+                event.target.previousElementSibling.classList.add("dissect-primed");
+                this.dissect1 = this.shapeHeldTitle.getAttribute("shape-held");
+                this.resetShapeHeldStatus();
+            } else {
+                this.dissectStatus = false;
+                this.dissect2 = this.shapeHeldTitle.getAttribute("shape-held");
+                this.resetShapeHeldStatus();
+
+                let statue1 = document.querySelector(".dissect-primed").parentElement;
+                let statue1Shape = document.querySelector(".dissect-primed").parentElement.getAttribute("statue-shape");
+                let statue2Shape = event.target.parentElement.getAttribute("statue-shape");
+                document.querySelector(".dissect-primed").classList.remove("dissect-primed");
+
+                statue1Shape = statue1Shape.replace(this.dissect1, '');
+                statue1Shape += this.dissect2;
+
+                statue2Shape = statue2Shape.replace(this.dissect2, '');
+                statue2Shape += this.dissect1;
+
+                statue1.setAttribute("statue-shape", statue1Shape);
+                event.target.parentElement.setAttribute("statue-shape", statue2Shape);
+
+                this.updateStatueShape();
+            }
+        }
+
         killKnight(event) {
             const currentBtn = event.currentTarget;
             const action = this.knightActions[currentBtn.className];
@@ -219,26 +312,20 @@
             }
         }
 
-        resetDisabledState() {
-            this.leftStatue.children[1].disabled = true;
-            this.midStatue.children[1].disabled = true;
-            this.rightStatue.children[1].disabled = true;
-        }
-
         pickupShape(event) {
             const currentBtn = event.currentTarget;
             const action = this.pickupActions[currentBtn.className];
 
-            if ((this.leftStatue.getAttribute("statue-shape")).includes(action.shape)) {
-                this.leftStatue.children[1].disabled = false;
+            if ((this.leftStatue.getAttribute("statue-shape")).includes(action.shape) && !this.leftDissect.previousElementSibling.classList.contains("dissect-primed")) {
+                this.leftDissect.disabled = false;
             }
 
-            if ((this.midStatue.getAttribute("statue-shape")).includes(action.shape)) {
-                this.midStatue.children[1].disabled = false;
+            if ((this.midStatue.getAttribute("statue-shape")).includes(action.shape) && !this.midDissect.previousElementSibling.classList.contains("dissect-primed")) {
+                this.midDissect.disabled = false;
             }
 
-            if ((this.rightStatue.getAttribute("statue-shape")).includes(action.shape)) {
-                this.rightStatue.children[1].disabled = false;
+            if ((this.rightStatue.getAttribute("statue-shape")).includes(action.shape) && !this.rightDissect.previousElementSibling.classList.contains("dissect-primed")) {
+                this.rightDissect.disabled = false;
             }
 
             if (action) {
@@ -309,8 +396,23 @@
             this.rightKnightKill.classList.remove("hide-class");
         }
 
+        resetKnights() {
+            this.leftShapePickup.classList.add("hide-class");
+            this.midShapePickup.classList.add("hide-class");
+            this.rightShapePickup.classList.add("hide-class");
+
+            this.leftShapeIgnore.classList.add("hide-class");
+            this.midShapeIgnore.classList.add("hide-class");
+            this.rightShapeIgnore.classList.add("hide-class");
+
+            Array.from(this.knights).forEach(knight => {
+                knight.children[0].src = "assets/knight.webp";
+            });
+        }
+
         bindingEvents() {
-            this.randomiseBtn.addEventListener('click', () => this.randomiseCallouts());
+            this.resetBtn.addEventListener('click', () => this.reset());
+            this.randomiseBtn.addEventListener('click', () => this.randomise());
             this.lettersCheckbox.addEventListener('change', this.handleLetterCheckbox.bind(this));
 
             this.leftKnightKill.addEventListener('click', (event) => this.killKnight(event));
@@ -325,14 +427,17 @@
             this.midShapeIgnore.addEventListener('click', (event) => this.ignoreShape(event));
             this.rightShapeIgnore.addEventListener('click', (event) => this.ignoreShape(event));
 
+            this.leftDissect.addEventListener('click', (event) => this.dissectStatue(event));
+            this.midDissect.addEventListener('click', (event) => this.dissectStatue(event));
+            this.rightDissect.addEventListener('click', (event) => this.dissectStatue(event));
+
             this.ogresKill.addEventListener('click', () => this.spawnKnights());
 
             window.onload = this.resetDisabledState();
-
         }
 
         init() {
-            this.randomiseCallouts();
+            this.start();
             this.bindingEvents();
         }
     }
