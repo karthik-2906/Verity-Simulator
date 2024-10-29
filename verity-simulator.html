@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Verity Dissection Simulator</title>
+    <meta name="description" content="Description">
+    <meta name="author" content="Author">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="assets/media/sphere.svg" type="image/x-icon">
+</head>
+
+<body>
+    <script src="js/script.js"></script>
+    <div class="verity-container">
+        <div class="verity-container__header">
+            <h2 class="verity-container__header-title">Verity Dissection Simulator</h2>
+            <p class="verity-container__header-desc">A simulator to help practice dissection in the verity encounter</p>
+            <div class="verity-container__header-info-container">
+                <img class="verity-container__header-info-icon" src="assets/media/info-circle.svg">
+                <p class="verity-container__header-info-text">How to play</p>
+                <img class="verity-container__header-info-accordion" src="assets//media/accordion-icon.svg">
+            </div>
+            <div class="verity-container__header-accordion-content">
+                <div>
+                    <p>The primary objective of this encounter is to swap the shapes of the statues to match the
+                        "keys"
+                        created by players in the solo room. To do this, you'll need to adjust the 3D shapes of each
+                        statue, ensuring that they do not contain the corresponding 2D shape from the callout. To
+                        achieve this:
+                    </p>
+                    <ol>
+                        <li><b>Defeat Knights:</b> First, you must eliminate knights, which will drop 2D shapes.
+                        </li>
+                        <li><b>Collect and Interact:</b> Pick up these 2D shapes and interact with a statue to
+                            "dissect"
+                            it. Depositing a 2D shape onto a statue primes that statue, indicating that its current
+                            2D shape needs to be replaced.</li>
+                        <li><b>Shape Swapping:</b> Once you have deposited a 2D shape on one statue, you can then swap
+                            it
+                            with another statue by depositing a different 2D shape. This process changes the 3D
+                            shapes of the two statues, ultimately helping you achieve the correct configuration.
+                        </li>
+                    </ol>
+                    <p>Here are some tips that will help you practice in this simulator</p>
+                    <ul>
+                        <li>The reset button doesn't change the callout but resets the statues and knights to the start
+                            position</li>
+                        <li>The randomise button changes the callouts and resets everything</li>
+                        <li>The letters checkbox allows you to view the callouts as a shape or letter</li>
+                        <li>Killing the left knight always drops a circle (C)</li>
+                        <li>Killing the middle knight always drops a triangle (T)</li>
+                        <li>Killing the right knight always drops a square (S)</li>
+                        <li>If you pick up a shape, you can see the shape you picked up under "Shape Held"</li>
+                        <li>To ignore a shape, press the "<span>&times</span>"</li>
+                        <li>To spawn a new set of knight, the unstoppable ogres needs to be killed</li>
+                        <li>The unstopabble ogres will spawn only when all knights are dead and all shapes have been
+                            picked up from the ground or the shapes despawn from the ground</li>
+                        <li>The status indicates the current status of dissection</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="verity-container__controls">
+            <button class="verity-container__controls-reset">RESET</button>
+            <button class="verity-container__controls-randomise">RANDOMISE</button>
+            <label class="verity-container__controls-checkbox-container">
+                <input type="checkbox" id="letters" class="verity-container__controls-checkbox" />
+                LETTERS
+                <span class="verity-container__controls-checkmark"></span>
+            </label>
+
+        </div>
+        <div class="verity-container__callouts">
+            <h2 class="verity-container__callouts-title">Callouts</h2>
+            <div class="verity-container__callouts-shapes"></div>
+        </div>
+        <div class="verity-container__statues">
+            <h2 class="verity-container__callouts-title">Statue Shapes</h2>
+            <span class="verity-container__statues-title">Status</span>
+            <span class="verity-container__statues-status">Incorrect</span>
+            <div class="verity-container__statues-container">
+                <div class="verity-container__statue-left">
+                    <img class="verity-container__statue-shape">
+                    <button class="verity-container__dissect-left" disabled="true">DISSECT</button>
+                </div>
+                <div class="verity-container__statue-mid">
+                    <img class="verity-container__statue-shape">
+                    <button class="verity-container__dissect-mid" disabled="true">DISSECT</button>
+                </div>
+                <div class="verity-container__statue-right">
+                    <img class="verity-container__statue-shape">
+                    <button class="verity-container__dissect-right" disabled="true">DISSECT</button>
+                </div>
+            </div>
+        </div>
+        <div class="verity-container__shape-held">
+            <h2 class="verity-container__shape-held-title">Shape Held</h2>
+        </div>
+        <div class="verity-container__shapes">
+            <h2 class="verity-container__shapes-title">Shapes Dropped</h2>
+            <div class="verity-container__enemies">
+                <div class="verity-container__enemies-knight">
+                    <img class="verity-enemies" src="assets/media/knight.webp">
+                    <button class="verity-container__enemies-left-knight-kill">KILL</button>
+                    <button class="verity-container__pickup-left hide-class">PICK UP</button>
+                    <button class="verity-container__ignore-left hide-class">&times</button>
+                </div>
+                <div class="verity-container__enemies-knight">
+                    <img class="verity-enemies" src="assets/media/knight.webp">
+                    <button class="verity-container__enemies-mid-knight-kill">KILL</button>
+                    <button class="verity-container__pickup-mid hide-class">PICK UP</button>
+                    <button class="verity-container__ignore-mid hide-class">&times</button>
+                </div>
+                <div class="verity-container__enemies-knight">
+                    <img class="verity-enemies" src="assets/media/knight.webp">
+                    <button class="verity-container__enemies-right-knight-kill">KILL</button>
+                    <button class="verity-container__pickup-right hide-class">PICK UP</button>
+                    <button class="verity-container__ignore-right hide-class">&times</button>
+                </div>
+                <div class="verity-container__enemies-champions hide-class">
+                    <div class="verity-container__enemies-ogres">
+                        <img class="verity-enemies" src="assets/media/ogre.webp">
+                        <img class="verity-enemies" src="assets/media/ogre.webp">
+                    </div>
+                    <button class="verity-container__enemies-ogre-kill">KILL UNSTOPABBLE OGRES</button>
+                </div>
+            </div>
+        </div>
+        <footer class="verity-container__footer">
+            <div class="verity-container__footer-left">
+                <p>Destiny 2 and all related media © Bungie.</p>
+            </div>
+            <div class="verity-container__footer-right">
+                <a href="https://github.com/karthik-2906/Verity-Simulator" target="_blank"><img class="github-icon"
+                        src="assets/media/github.svg"></a>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

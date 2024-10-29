@@ -1,3 +1,18 @@
+@font-face {
+    font-family: 'Bureau Grot';
+    src: url('../assets/fonts/BureauGrotesque\ FiveThree.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --color-primary: #FFFFFF;
+    --color-secondary: #B78C25;
+    --color-red: #ff0000cc;
+    --color-green: #00ff0065;
+    --background-color: #12171C;
+}
+
 /*
   1. Use a more-intuitive box-sizing model.
 */
@@ -11,6 +26,9 @@
     2. Remove default margin
   */
 * {
+    /* font-family: 'Bureau Grot'; */
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--color-primary);
     margin: 0;
 }
 
@@ -22,6 +40,8 @@
 body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    background: var(--background-color);
+    /* background: linear-gradient(135deg, #0e1a2c 0%, #2b3e55 100%); */
 }
 
 /*
@@ -68,17 +88,175 @@ h6 {
 }
 
 .verity-container {
-    max-width: 1248px;
+    max-width: 800px;
     margin: 0 auto;
     text-align: center;
 }
 
+.verity-container__header,
+.verity-container__controls,
+.verity-container__callouts,
+.verity-container__statues,
+.verity-container__shape-held,
+.verity-container__shapes {
+    margin-bottom: 20px;
+}
+
+.verity-container__header-title {
+    font-size: 2rem;
+}
+
+.verity-container__header-desc {
+    font-size: 1.25rem;
+}
+
+.verity-container__header-info-container {
+    display: inline-flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.verity-container__header-info-icon,
+.verity-container__header-info-accordion {
+    width: 16px;
+    transition: 0.5s ease-in-out;
+}
+
+.verity-container__header-info-text {
+    margin-left: 5px;
+    font-size: 0.875rem
+}
+
+.verity-container__header-info-container:hover {
+    cursor: pointer;
+}
+
+.verity-container__header-info-accordion.rotate {
+    transform: rotate(180deg);
+    transition: 0.5s ease-in-out;
+}
+
+.verity-container__header-accordion-content {
+    text-align: left;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.5s;
+}
+
+.verity-container__header-accordion-content>div {
+    overflow: hidden;
+}
+
+.verity-container__header-accordion-content.show {
+    grid-template-rows: 1fr;
+}
+
+.verity-container__header-accordion-content>div>ol {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.verity-container__header-accordion-content>div>ol>li {
+    padding-bottom: 6px;
+}
+
+.verity-container__header-accordion-content>div>ul {
+    margin-top: 10px;
+    padding-left: 40px;
+}
+
+.verity-container__header-accordion-content>div>ul>li {
+    padding-bottom: 6px;
+}
+
+.verity-container__controls {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+button:hover:not(:disabled) {
+    transform: scale(1.05);
+}
+
+button:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+button:disabled {
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    cursor: not-allowed;
+    opacity: 0.2;
+}
+
+.verity-container__controls-reset {
+    background-color: var(--color-secondary);
+    border: 1px solid var(--color-secondary);
+}
+
+.verity-container__controls-randomise {
+    background-color: transparent;
+    border: 1px solid var(--color-secondary);
+    margin: 0 10px;
+}
+
+.verity-container__controls-checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.verity-container__controls-checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-secondary);
+    border-radius: 4px;
+    position: relative;
+    margin-left: 5px;
+}
+
+.verity-container__controls-checkbox:checked+.verity-container__controls-checkmark {
+    background-color: var(--color-secondary)
+}
+
+.verity-container__controls-checkmark:after {
+    content: '';
+    position: absolute;
+    display: none;
+}
+
+.verity-container__controls-checkbox:checked+.verity-container__controls-checkmark:after {
+    display: block;
+}
+
+.verity-container__controls-checkmark:after {
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid var(--color-primary);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
 .verity-container__callouts-shapes {
     display: flex;
+    margin-top: 20px;
 }
 
 .verity-container__callouts-letter {
     font-size: 4rem;
+    height: 100px;
 }
 
 .verity-container__callouts-shape,
@@ -89,27 +267,47 @@ h6 {
 .verity-container__callouts-shape,
 .verity-container__statue-shape,
 .verity-enemies {
-    max-height: 100px;
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
     margin: 0 auto;
 }
 
 .verity-container__statues-title,
 .verity-container__statues-status {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
 }
 
 .verity-container__statues-status {
-    color: red;
+    color: var(--color-red);
 }
 
 .correct-status {
-    color: green !important;
+    color: var(--color-green) !important;
 }
 
 .verity-container__enemies,
 .verity-container__statues-container {
     display: flex;
+    margin-top: 20px;
+}
+
+.verity-container__statues-container {
+    margin-top: 20px;
+}
+
+.verity-enemies,
+.verity-container__statue-shape {
+    margin-bottom: 10px;
+}
+
+.verity-container__dissect-left,
+.verity-container__dissect-mid,
+.verity-container__dissect-right {
+    background-color: transparent;
+    border: 1px solid var(--color-primary);
+    transition: 0.3s ease-in-out;
 }
 
 .verity-container__enemies-knight,
@@ -117,6 +315,31 @@ h6 {
 .verity-container__statue-mid,
 .verity-container__statue-right {
     flex: 1;
+}
+
+.verity-container__enemies-left-knight-kill,
+.verity-container__enemies-mid-knight-kill,
+.verity-container__enemies-right-knight-kill,
+.verity-container__enemies-ogre-kill {
+    background-color: var(--color-red);
+    border: 1px solid var(--color-red);
+}
+
+.verity-container__pickup-left,
+.verity-container__pickup-mid,
+.verity-container__pickup-right {
+    background-color: var(--color-green);
+    border: 1px solid var(--color-green);
+    color: var(--color-primary);
+    margin-right: 5px;
+}
+
+.verity-container__ignore-left,
+.verity-container__ignore-mid,
+.verity-container__ignore-right {
+    background-color: var(--color-red);
+    border: 1px solid var(--color-red);
+    color: var(--color-primary);
 }
 
 .verity-container__enemies-champions {
@@ -128,9 +351,72 @@ h6 {
 }
 
 .dissect-primed {
-    background-color: yellow;
+    background: #d89236;
+    border-radius: 10px;
+    padding: 5px;
+    transition: 0.3s ease-in-out;
 }
 
-.hide-class {
+.hide-class,
+.verity-container__controls-checkbox {
     display: none;
+}
+
+.verity-container__footer {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 0 20px;
+}
+
+.github-icon {
+    width: 24px;
+}
+
+@media (max-width : 1248px) {
+    .verity-container {
+        margin: 20px auto;
+    }
+}
+
+@media (max-width : 992px) {
+    .verity-container {
+        max-width: unset;
+        margin: 20px 40px;
+    }
+}
+
+@media (max-width : 576px) {
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    .verity-container {
+        margin: 20px;
+    }
+
+    .verity-container__header-title {
+        font-size: 1.5rem;
+    }
+
+    .verity-container__header-desc {
+        font-size: 1rem;
+    }
+
+    .verity-container__callouts-shape,
+    .verity-container__statue-shape,
+    .verity-enemies {
+        width: 80px;
+        height: 80px;
+    }
+
+    .verity-container__statues-title,
+    .verity-container__statues-status {
+        font-size: 1.25rem
+    }
+
+    .verity-container__ignore-left,
+    .verity-container__ignore-mid,
+    .verity-container__ignore-right {
+        margin-top: 10px;
+    }
 }

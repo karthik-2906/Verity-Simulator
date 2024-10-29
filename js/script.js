@@ -1,6 +1,9 @@
 (function () {
     class VerityCalculator {
         constructor() {
+            this.accordion = document.querySelector(".verity-container__header-info-container");
+            this.accordionIcon = document.querySelector(".verity-container__header-info-accordion");
+            this.accordionContent = document.querySelector(".verity-container__header-accordion-content");
             this.resetBtn = document.querySelector('.verity-container__controls-reset');
             this.randomiseBtn = document.querySelector('.verity-container__controls-randomise');
             this.lettersCheckbox = document.getElementById('letters');
@@ -8,9 +11,9 @@
             this.statuesArr = ['C', 'C', 'T', 'T', 'S', 'S'];
 
             this.shapes = [
-                { src: 'assets/circle.svg', letter: 'C' },
-                { src: 'assets/triangle.svg', letter: 'T' },
-                { src: 'assets/square.svg', letter: 'S' }
+                { src: 'assets/media/circle.svg', letter: 'C' },
+                { src: 'assets/media/triangle.svg', letter: 'T' },
+                { src: 'assets/media/square.svg', letter: 'S' }
             ];
 
             this.status = document.querySelector(".verity-container__statues-status");
@@ -36,17 +39,17 @@
 
             this.knightActions = {
                 "verity-container__enemies-left-knight-kill": {
-                    src: "assets/circle.svg",
+                    src: "assets/media/circle.svg",
                     pickupClass: "verity-container__pickup-left",
                     ignoreClass: "verity-container__ignore-left"
                 },
                 "verity-container__enemies-mid-knight-kill": {
-                    src: "assets/triangle.svg",
+                    src: "assets/media/triangle.svg",
                     pickupClass: "verity-container__pickup-mid",
                     ignoreClass: "verity-container__ignore-mid"
                 },
                 "verity-container__enemies-right-knight-kill": {
-                    src: "assets/square.svg",
+                    src: "assets/media/square.svg",
                     pickupClass: "verity-container__pickup-right",
                     ignoreClass: "verity-container__ignore-right"
                 }
@@ -58,21 +61,21 @@
 
             this.pickupActions = {
                 "verity-container__pickup-left": {
-                    src: "assets/knight.webp",
+                    src: "assets/media/knight.webp",
                     shape: "C",
-                    shapeImg: "assets/circle.svg",
+                    shapeImg: "assets/media/circle.svg",
                     ignoreClass: "verity-container__ignore-left"
                 },
                 "verity-container__pickup-mid": {
-                    src: "assets/knight.webp",
+                    src: "assets/media/knight.webp",
                     shape: "T",
-                    shapeImg: "assets/triangle.svg",
+                    shapeImg: "assets/media/triangle.svg",
                     ignoreClass: "verity-container__ignore-mid"
                 },
                 "verity-container__pickup-right": {
-                    src: "assets/knight.webp",
+                    src: "assets/media/knight.webp",
                     shape: "S",
-                    shapeImg: "assets/square.svg",
+                    shapeImg: "assets/media/square.svg",
                     ignoreClass: "verity-container__ignore-right"
                 }
             }
@@ -83,21 +86,26 @@
 
             this.ignoreActions = {
                 "verity-container__ignore-left": {
-                    src: "assets/knight.webp",
+                    src: "assets/media/knight.webp",
                     pickupClass: "verity-container__pickup-left"
                 },
                 "verity-container__ignore-mid": {
-                    src: "assets/knight.webp",
+                    src: "assets/media/knight.webp",
                     pickupClass: "verity-container__pickup-mid"
                 },
                 "verity-container__ignore-right": {
-                    src: "assets/knight.webp",
+                    src: "assets/media/knight.webp",
                     pickupClass: "verity-container__pickup-right"
                 }
             }
 
             this.ogres = document.querySelector(".verity-container__enemies-champions");
             this.ogresKill = document.querySelector(".verity-container__enemies-ogre-kill")
+        }
+
+        toggleAccordion() {
+            this.accordionContent.classList.toggle('show');
+            this.accordionIcon.classList.toggle('rotate');
         }
 
         reset() {
@@ -188,15 +196,15 @@
             let rightStatueShapes = this.rightStatue.getAttribute('statue-shape');
 
             const shapeAssets = {
-                "CC": "assets/sphere.svg",
-                "SS": "assets/cube.svg",
-                "TT": "assets/pyramid.svg",
-                "SC": "assets/cylinder.svg",
-                "CS": "assets/cylinder.svg",
-                "TS": "assets/prism.png",
-                "ST": "assets/prism.png",
-                "CT": "assets/cone.svg",
-                "TC": "assets/cone.svg"
+                "CC": "assets/media/sphere.svg",
+                "SS": "assets/media/cube.svg",
+                "TT": "assets/media/pyramid.svg",
+                "SC": "assets/media/cylinder.svg",
+                "CS": "assets/media/cylinder.svg",
+                "TS": "assets/media/prism.png",
+                "ST": "assets/media/prism.png",
+                "CT": "assets/media/cone.svg",
+                "TC": "assets/media/cone.svg"
             };
 
             const updateStatueSrc = (statue, shape) => {
@@ -210,7 +218,7 @@
             this.updateStatus(leftStatueShapes, midStatueShapes, rightStatueShapes);
         }
 
-        updateStatus(leftStatueShapes, midStatueShapes, rightStatueShapes) {
+        updateStatus(leftStatueShapes, midStatueShapes) {
             let leftCombinedShapes = leftStatueShapes + this.calloutsArr[0];
             let midCombinedShapes = midStatueShapes + this.calloutsArr[1];
 
@@ -295,6 +303,8 @@
 
                 statue1.setAttribute("statue-shape", statue1Shape);
                 event.target.parentElement.setAttribute("statue-shape", statue2Shape);
+
+                console.log(statue1, event.target.parentElement)
 
                 this.updateStatueShape();
             }
@@ -406,11 +416,12 @@
             this.rightShapeIgnore.classList.add("hide-class");
 
             Array.from(this.knights).forEach(knight => {
-                knight.children[0].src = "assets/knight.webp";
+                knight.children[0].src = "assets/media/knight.webp";
             });
         }
 
         bindingEvents() {
+            this.accordion.addEventListener('click', ()=> this.toggleAccordion());
             this.resetBtn.addEventListener('click', () => this.reset());
             this.randomiseBtn.addEventListener('click', () => this.randomise());
             this.lettersCheckbox.addEventListener('change', this.handleLetterCheckbox.bind(this));
